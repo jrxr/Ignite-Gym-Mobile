@@ -1,6 +1,7 @@
 import { VStack, Image, Text, Center, Heading } from "native-base";
 
 import { Input } from "@components/Input";
+import { Button } from "@components/Button";
 
 import LogoSvg from "@assets/logo.svg";
 import BackgroundImg from "@assets/background.png";
@@ -28,15 +29,14 @@ export function SignIn() {
           Acesse sua conta
         </Heading>
 
-        <Input 
+        <Input
           placeholder="E-mail"
           keyboardType="email-address"
-          autoCapitalize="none" 
+          autoCapitalize="none"
         />
-        <Input 
-          placeholder="Senha"
-          secureTextEntry
-        />
+        <Input placeholder="Senha" secureTextEntry />
+
+        <Button title="Acessar" />
       </Center>
     </VStack>
   );
