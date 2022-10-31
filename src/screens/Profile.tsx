@@ -21,21 +21,31 @@ const PHOTO_SIZE = 33;
 
 export function Profile() {
   const [photoIsLoading, setPhotoIsLoading] = useState(false);
-  const [userPhoto, setUserPhoto] = useState('https://github.com/jrxr.png');
+  const [userPhoto, setUserPhoto] = useState("https://github.com/jrxr.png");
 
-  async function handleUserPhotoSelected(){
-    const photoSelected = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      quality: 1,
-      aspect: [4, 4],
-      allowsEditing: true,
-    });
+  async function handleUserPhotoSelected() {
+    setPhotoIsLoading(true);
 
-    if(photoSelected.cancelled) {
-      return;
+    try {
+      const photoSelected = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        quality: 1,
+        aspect: [4, 4],
+        allowsEditing: true,
+      });
+
+      if (photoSelected.cancelled) {
+        return;
+      }
+
+      if (photoSelected.uri) {
+        setUserPhoto(photoSelected.uri);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setPhotoIsLoading(false);
     }
-
-    setUserPhoto(photoSelected.uri);
   }
 
   return (
