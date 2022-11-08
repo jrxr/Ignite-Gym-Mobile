@@ -10,7 +10,7 @@ import { Button } from "@components/Button";
 import { useNavigation } from "@react-navigation/native";
 
 export function SignUp() {
-  const { control } = useForm();
+  const { control, handleSubmit } = useForm();
 
   const navigation = useNavigation();
 
@@ -18,7 +18,9 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp() {}
+  function handleSignUp(data: any) {
+    console.log({ data });
+  }
 
   return (
     <ScrollView
@@ -91,11 +93,16 @@ export function SignUp() {
                 secureTextEntry
                 onChangeText={onChange}
                 value={value}
+                onSubmitEditing={handleSubmit(handleSignUp)}
+                returnKeyType="send"
               />
             )}
           />
 
-          <Button title="Criar e acessar" onPress={handleSignUp} />
+          <Button
+            title="Criar e acessar"
+            onPress={handleSubmit(handleSignUp)}
+          />
         </Center>
 
         <Button
