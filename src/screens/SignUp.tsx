@@ -9,8 +9,15 @@ import { Button } from "@components/Button";
 
 import { useNavigation } from "@react-navigation/native";
 
+type FormDataProps = {
+  name: string;
+  email: string;
+  password: string;
+  password_confirm: string;
+};
+
 export function SignUp() {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit } = useForm<FormDataProps>();
 
   const navigation = useNavigation();
 
@@ -18,8 +25,13 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  function handleSignUp(data: any) {
-    console.log({ data });
+  function handleSignUp({
+    name,
+    email,
+    password,
+    password_confirm,
+  }: FormDataProps) {
+    console.log({ name, email, password, password_confirm });
   }
 
   return (
