@@ -10,6 +10,7 @@ import { Input } from "@components/Input";
 import { Button } from "@components/Button";
 
 import { useNavigation } from "@react-navigation/native";
+import { api } from "@services/api";
 
 type FormDataProps = {
   name: string;
@@ -46,25 +47,14 @@ export function SignUp() {
     navigation.goBack();
   }
 
-  async function handleSignUp({
-    name,
-    email,
-    password,
-  }: FormDataProps) {
-    await fetch("http://localhost:3333/users", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        email,
-        password,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data));
+  async function handleSignUp({ name, email, password }: FormDataProps) {
+    const response = await api.post("/users", {
+      name,
+      email,
+      password,
+    });
+
+    console.log(response.data);
   }
 
   return (
