@@ -1,4 +1,4 @@
-import { NativeBaseProvider } from 'native-base';
+import { NativeBaseProvider } from "native-base";
 import { StatusBar } from "react-native";
 import {
   useFonts,
@@ -6,24 +6,35 @@ import {
   Roboto_700Bold,
 } from "@expo-google-fonts/roboto";
 
-import { THEME } from './src/theme';
+import { AuthContext } from "@contexts/AuthContext";
 
-import { Loading } from '@components/Loading';
+import { THEME } from "./src/theme";
 
-import { Routes } from '@routes/index';
+import { Loading } from "@components/Loading";
+
+import { Routes } from "@routes/index";
 
 export default function App() {
   const [fontsLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold });
 
   return (
     <NativeBaseProvider theme={THEME}>
-      <StatusBar 
+      <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
         translucent
       />
 
-      {fontsLoaded ? <Routes /> : <Loading />}
+      <AuthContext.Provider
+        value={{
+          id: "1",
+          name: "Junior",
+          email: "jrxr@email.com",
+          avatar: "jrxr.png",
+        }}
+      >
+        {fontsLoaded ? <Routes /> : <Loading />}
+      </AuthContext.Provider>
     </NativeBaseProvider>
   );
 }
