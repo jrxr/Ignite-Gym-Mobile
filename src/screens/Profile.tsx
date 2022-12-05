@@ -36,7 +36,8 @@ type FormDataProps = {
 
 const profileSchema = yup.object({
   name: yup.string().required('Informe o nome'),
-
+  password: yup.string().min(6, 'A senha deve ter pelo menos 6 dígitos.').nullable().transform((value) => !!value ? value : null),
+  confirm_password: yup.string().nullable().transform((value) => !!value ? value : null).oneOf([yup.ref('password'), null], 'A confirmação de senha não confere.'),
 })
 
 export function Profile() {
@@ -45,12 +46,12 @@ export function Profile() {
 
   const toast = useToast();
   const { user } = useAuth();
-  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({ 
-    defaultValues: { 
+  const { control, handleSubmit, formState: { errors } } = useForm<FormDataProps>({
+    defaultValues: {
       name: user.name,
       email: user.email
     },
-    resolver: yupResolver(profileSchema) 
+    resolver: yupResolver(profileSchema)
   });
 
   async function handleUserPhotoSelected() {
