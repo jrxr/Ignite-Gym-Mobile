@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { storageAuthTokenGet } from "@storage/storageAuthToken";
 
 import { AppError } from "@utils/AppError";
 
@@ -15,12 +16,18 @@ const api = axios.create({
 api.registerInterceptTokenManager = (singOut) => {
   const interceptTokenManager = api.interceptors.response.use(
     (response) => response,
-    (requestError) => {
+    async (requestError) => {
       if (requestError.response?.status === 401) {
         if (
           requestError.response.data?.message === "token.expired" ||
           requestError.response.data?.message === "token.invalid"
         ) {
+          const oldToken = await storageAuthTokenGet();
+
+          if (!oldToken) {
+            singOut();
+            return Promise.reject(requestError);
+          }
         }
 
         singOut();
